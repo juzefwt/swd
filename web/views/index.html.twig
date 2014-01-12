@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<h1>Jaki Komp?</h1>
+
+<div class="row">
+  <div class="col-md-4">
+    <form>
+      <div class="form-group">
+        <label for="zastosowanie">Do jakich zastosowań?</label>
+        <select class="form-control">
+          <option value="">- wybierz -</option>
+          <option value="biuro">do biura</option>
+          <option value="szkoła">do szkoły</option>
+          <option value="grafika">dla grafika</option>
+          <option value="programowanie">- wybierz -</option>
+        </select>
+        <p class="help-block">Zamiast tego możesz <a href="#">wskazać własne preferencje</a>.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="zastosowanie">Twój priorytet</label>
+        <select class="form-control">
+          <option value="">- wybierz -</option>
+          <option value="cena">niska cena</option>
+          <option value="wydajnosc">wydajność</option>
+          <option value="prestiz">prestiż</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-default">Znajdź najlepsze</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

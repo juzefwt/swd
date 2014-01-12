@@ -1,0 +1,11 @@
+{
+    "stuff": [
+        {
+            "name": "komp1",
+            "cpu": "core i7-4700MQ",
+            "gpu": "nV GF GT750M",
+            "ram": "16GB",
+            "hdd": "1000GB",
+        }
+    ]
+}

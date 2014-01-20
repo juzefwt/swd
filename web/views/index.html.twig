@@ -4,22 +4,21 @@
 
 <div class="row">
   <div class="col-md-4">
-    <form>
+    <form method="get" action="wynik">
       <div class="form-group">
-        <label for="zastosowanie">Do jakich zastosowań?</label>
-        <select class="form-control">
+        <label for="profile">Do jakich zastosowań?</label>
+        <select name="profile" class="form-control">
           <option value="">- wybierz -</option>
-          <option value="biuro">do biura</option>
-          <option value="szkoła">do szkoły</option>
-          <option value="grafika">dla grafika</option>
-          <option value="programowanie">- wybierz -</option>
+          {% for profile in profiles %}
+              <option value="{{ profile.name }}">{{ profile.label }}</option>
+          {% endfor %}
         </select>
         <p class="help-block">Zamiast tego możesz <a href="#">wskazać własne preferencje</a>.</p>
       </div>
 
       <div class="form-group">
-        <label for="zastosowanie">Twój priorytet</label>
-        <select class="form-control">
+        <label for="sort">Twój priorytet</label>
+        <select name="sort" class="form-control">
           <option value="">- wybierz -</option>
           <option value="cena">niska cena</option>
           <option value="wydajnosc">wydajność</option>

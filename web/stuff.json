@@ -1,11 +1,32 @@
-{
-    "stuff": [
-        {
-            "name": "komp1",
-            "cpu": "core i7-4700MQ",
-            "gpu": "nV GF GT750M",
-            "ram": "16GB",
-            "hdd": "1000GB",
+[
+    {
+        "name": "Komp #1",
+        "cpu": "core i7-4700MQ",
+        "gpu": "nV GF GT750M",
+        "ram": "16GB",
+        "hdd": "1000GB",
+        "price": 2789,
+        "criteria": {
+            "price": 5,
+            "disk": 2,
+            "gpu": 2,
+            "cpu": 6,
+            "ram": 4
         }
-    ]
-}
+    },
+    {
+        "name": "Komp #2",
+        "cpu": "core i7-4700MQ",
+        "gpu": "nV GF GT750M",
+        "ram": "16GB",
+        "hdd": "1000GB",
+        "price": 2789,
+        "criteria": {
+            "price": 8,
+            "disk": 5,
+            "gpu": 7,
+            "cpu": 7,
+            "ram": 8
+        }
+    }
+]

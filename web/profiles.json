@@ -1,8 +1,46 @@
-{
-    "profiles": [
+[
         {
             "name": "biuro",
             "label": "do biura",
+            "criteria": {
+                "price": 8,
+                "disk": 6,
+                "gpu": 2,
+                "cpu": 6,
+                "ram": 4
+            }
+        },
+        {
+            "name": "gry",
+            "label": "do gier",
+            "criteria": {
+                "price": 2,
+                "disk": 8,
+                "gpu": 10,
+                "cpu": 8,
+                "ram": 6
+            }
+        },
+        {
+            "name": "grafik",
+            "label": "dla grafika",
+            "criteria": {
+                "price": 2,
+                "disk": 8,
+                "gpu": 4,
+                "cpu": 8,
+                "ram": 9
+            }
+        },
+        {
+            "name": "programista",
+            "label": "dla programisty",
+            "criteria": {
+                "price": 3,
+                "disk": 8,
+                "gpu": 3,
+                "cpu": 9,
+                "ram": 10
+            }
         }
-    ]
-}
+]

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<h1>Jaki Komp?</h1>
+
+<div class="row">
+  <div class="col-md-8">
+    <h2>Najlepsze propozycje {{ selectedProfile.label }}</h2>
+    <h3>Twój priorytet: {{ sort }}</h3>
+    <ul>
+    {% for item in items %}
+        <li>
+            <h4>{{ item.name }}&nbsp;<span style="background:#666;color:#fff;padding:5px">ocena: {{ item.rating}}</span></h4>
+            <p>CPU: {{ item.cpu }}</p>
+            <p>GPU: {{ item.gpu }}</p>
+            <p>RAM: {{ item.ram }}</p>
+            <p>Dysk: {{ item.hdd }}</p>
+            <p><strong>Cena: {{ item.price }}zł</strong></p>
+        </li>
+    {% endfor %}    
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

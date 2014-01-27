@@ -1,21 +1,6 @@
 [
     {
-        "name": "Komp #1",
-        "cpu": "core i7-4700MQ",
-        "gpu": "nV GF GT750M",
-        "ram": "16GB",
-        "hdd": "1000GB",
-        "price": 2789,
-        "criteria": {
-            "price": 5,
-            "disk": 2,
-            "gpu": 2,
-            "cpu": 6,
-            "ram": 4
-        }
-    },
-    {
-        "name": "Komp #2",
+        "name": "Komp dla grafika",
         "cpu": "core i7-4700MQ",
         "gpu": "nV GF GT750M",
         "ram": "16GB",
@@ -23,10 +8,40 @@
         "price": 2789,
         "criteria": {
             "price": 8,
-            "disk": 5,
-            "gpu": 7,
-            "cpu": 7,
+            "disk": 6,
+            "gpu": 9,
+            "cpu": 6,
             "ram": 8
+        }
+    },
+    {
+        "name": "Komp beznadziejny",
+        "cpu": "core i7-4700MQ",
+        "gpu": "nV GF GT750M",
+        "ram": "16GB",
+        "hdd": "1000GB",
+        "price": 789,
+        "criteria": {
+            "price": 10,
+            "disk": 1,
+            "gpu": 1,
+            "cpu": 1,
+            "ram": 10
+        }
+    },
+    {
+        "name": "Komp do biura",
+        "cpu": "core i7-4700MQ",
+        "gpu": "nV GF GT750M",
+        "ram": "16GB",
+        "hdd": "1000GB",
+        "price": 1789,
+        "criteria": {
+            "price": 2,
+            "disk": 3,
+            "gpu": 2,
+            "cpu": 4,
+            "ram": 2
         }
     }
 ]

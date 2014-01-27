@@ -15,9 +15,11 @@
             <p>RAM: {{ item.ram }}</p>
             <p>Dysk: {{ item.hdd }}</p>
             <p><strong>Cena: {{ item.price }}zł</strong></p>
+            <pre>{{ dump(item.criteria) }}</pre>
         </li>
     {% endfor %}    
     </ul>
+    <pre>{{ dump(selectedProfile) }}</pre>
   </div>
 </div>
 

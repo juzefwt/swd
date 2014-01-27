@@ -15,209 +15,120 @@ $twig->addExtension(new \Entea\Twig\Extension\AssetExtension($app));
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 
-/*
-  * tworzy matrix MxM z listy
-  */
-function matrixFromCriteriaList($criteria) {
-        $result = array();
+function multiplyMatrix($matrix1, $matrix2)
+{
+    $result = array();
 
-        foreach ($criteria as $c) {
-                $column = array();
-                foreach ($criteria as $c2) {
-                    if (isset($criteria['ram'])) {
-                        $column[] = (double) ($c / $c2);
-                    } else {
-                        $column[] = (double) ($c['value'] / $c2['value']);
-                    }
+    for ($row = 0; $row < count($matrix1); $row++) {
+        $sum = 0;
+        foreach ($matrix1[$row] as $index => $number) {
+            $sum += $number * $matrix2[$index];
+        }
+
+        $result[] = $sum;
+    }
+
+    return $result;
+}
+
+function squareMatrix($matrix)
+{
+    $result = array();
+
+    for ($row = 0; $row < count($matrix); $row++) {
+        for ($col = 0; $col < count($matrix); $col++) {
+            $sum = 0;
+            for ($a = 0; $a < count($matrix); $a++) {
+                for ($b = 0; $b < count($matrix); $b++) {
+                    $sum += $matrix[$row][$a]*$matrix[$b][$col];
                 }
-
-                $result[] = $column;
-        }
-
-        return $result;
-}
-
-/*
-  * wylicza liste parametrow c np c1 = suma elementów w 1 kolumnie
-  */
-function getCValues($matrix) {
-    $cValues = array();
-
-    foreach ($matrix as $column) {
-            $sum = 0;
-            foreach ($column as $value) {
-                    $sum += $value;
             }
-            $cValues[] = $sum;
-    }
 
-    return $cValues;
-}
-
-/*
-  * Normalizacja maciezy polega na podizeleniu kazdego elementu w maciezy
-  * przez cValue dla odpowiedniej kolumny
-  * 
-  * robie to na zasadzie zwyklej podmiany, tylko nie pamietam czy przez
-  * referencje by sie to podmieni³o wstawienie nowej wartosci dzieje sie w
-  * linii: value = value/cValues.get(i); reszta to odpowiednia iteracja po
-  * tablicy
-  */
-function normalizeMatrix(&$matrix, $cValues) {
-
-    for ($i = 0; $i < count($matrix); $i++) {
-        $column = $matrix[$i];
-        foreach ($column as $j => $value) {
-                $matrix[$i][$j] = $value / $cValues[$i];
+            $result[$row][$col] = $sum;
         }
     }
+
+    return $result;
 }
 
-/*
-  * Tutaj przekazujemy juz znormalizowana tablice!
-  * 
-  * s1 to suma elementow w pierwszym rzedzie * (1/M)(M ilosc elementow w
-  * rzedzie)
-  */
-function getSValues($matrix) {
-    $sValues = array();
+function createEigenvector($matrix)
+{
+    $matrix = squareMatrix($matrix);
 
-    for ($y = 0; $y < count($matrix); $y++) {
-            $sum = 0;
-            for ($x = 0; $x < count($matrix); $x++) {
-                    $sum += $matrix[$x][$y]; 
-            }
-            $sValues[] = $sum/count($matrix);
+    $vector = array();
+    $totalSum = 0;
+
+    foreach ($matrix as $row) {
+        $sum = 0;
+        foreach ($row as $item) {
+            $sum += $item;
+        }
+        $vector[] = $sum;
+        $totalSum += $sum;
     }
-    return $sValues;
-}
 
-function getSValuesFromNotNormalized($matrix) {
-        $cValues = getCValues($matrix);
-
-        normalizeMatrix($matrix, $cValues);
-
-        return getSValues($matrix);
-}
-    
-/*
-  * obliczenie lambda max
-  * 
-  * cValues i sValues oczywiscie wyliczone z tej samej maciezy
-  */
-function getLambdaMax($cValues, $sValues){
-
-    $lambdaMax = 0;
-    
-    for ($i = 0 ; $i < count($cValues); $i++){
-            $lambdaMax += $cValues[$i] * $sValues[$i];
+    foreach ($vector as $i => $sum) {
+        $vector[$i] = $sum / $totalSum;
     }
-    
-    return $lambdaMax;
-}
-    
-/*
-  * jako parametr podajemy rzad maciezy
-  */
-function getCRCheckValue($matrixDim){
-    switch($matrixDim){
-        case 1: 
-                return 0.0;
-        case 2:
-                return 0.0;
-        case 3:
-                return 0.52;
-        case 4:
-                return 0.89;
-        case 5:
-                return 1.11;
-        case 6:
-                return 1.25;
-        default:
-                return 0.0;
-    }
-}
-    
-function checkMatrixConsistency($matrix){
-    $cValues = getCValues($matrix);
-    $sValues = getSValues($matrix);
-    $lambdaMax = getLambdaMax($cValues, $sValues);
-    
-    $ci = ($lambdaMax - count($matrix))/(count($matrix)-1);
-    $cr = $ci/getCRCheckValue(count($matrix));
-    
-    return $cr < 0.1;
-}
-    
-/*
-  * tutaj List<List<Double>> to list sValues(a to samo w sobie jest lista, a dokladniej wektorem)
-  */
-function getRanking($m0sValues, $paramsSValues){
-    $ranking = array();
-    
-    for($i = 0 ; $i < count($paramsSValues); $i++){
-            $tempPair = array();
-            for($j = 0 ; $j < count($m0sValues); $j++){
-                    $ratio = $m0sValues[$j] * $paramsSValues[$j][$i];
-                    $tempPair['index'] = $i;
-                    $tempPair['ratio'] = $ratio;
-            }
-            $ranking[] = $tempPair;
-    }
-    
-    return $ranking;
-}
 
+    return $vector;
+}
 
 function ahp($pcs, $preferences, $sort) {
+    $criteriaComparison = array();
+    $ranking = array();
 
-    $groupedCriterias = array();
     foreach ($preferences['criteria'] as $name => $val) {
-        $criteriaVector = array();
-        foreach ($pcs as $pc) {
-            $criteriaVector[] = array('name' => $name, 'value' => $pc['criteria'][$name]);
+        $row = array();
+
+        foreach ($preferences['criteria'] as $name2 => $val2) {
+            $row[] = $val / $val2;
         }
-        $groupedCriterias[] = $criteriaVector;
+
+        $criteriaComparison[] = $row;
+
+        $criteriaRanking = array();
+        foreach ($pcs as $pc) {
+            $row = array();
+
+            foreach ($pcs as $pc2) {
+                $row[] = $pc['criteria'][$name] / $pc2['criteria'][$name];
+            }
+
+            $criteriaRanking[] = $row;
+        }
+
+        $ranking[] = $criteriaRanking;
     }
 
-    $m0 = matrixFromCriteriaList($preferences['criteria']);
-    $valuesMatrixList = array();
+    $generalEigenvector = createEigenvector($criteriaComparison);
+    $rankingEigenvectors = array();
 
-    foreach ($groupedCriterias as $paramVector) {
-        $valuesMatrixList[] = matrixFromCriteriaList($paramVector);
+    foreach ($ranking as $item) {
+        $rankingEigenvectors[] = createEigenvector($item);
     }
 
-    $m0Consistent = checkMatrixConsistency($m0);
-    $paramsConsistency = true;
+    $ultimateMatrix = array();
 
-    foreach ($valuesMatrixList as $paramMatrix) {
-        $paramsConsistency = $paramsConsistency && checkMatrixConsistency($paramMatrix);
+    foreach ($generalEigenvector as $i => $general) {
+        $row = array();
+        foreach ($rankingEigenvectors as $vector) {
+            $row[] = $vector[$i];
+        }
+        $ultimateMatrix[] = $row;
     }
 
-    if (!$m0Consistent || !$paramsConsistency) {
-        print_r('not consistent');
-    }
-
-    $m0SValues = getSValuesFromNotNormalized($m0);
-
-    $paramsSValues = array();
-    foreach ($valuesMatrixList as $paramMatrix) {
-        $paramsSValues[] = getSValuesFromNotNormalized($paramMatrix);
-    }
-
-    $ranking = getRanking($m0SValues, $paramsSValues);
-
-    var_dump($ranking);
+    $ftw = multiplyMatrix($ultimateMatrix, $generalEigenvector);
 
     $maxRatio = 0;
-    foreach ($ranking as $item) {
-        if ($item['ratio'] > $maxRatio) {
-              $maxRatio = $item['ratio'];
+    foreach ($ftw as $item) {
+        if ($item > $maxRatio) {
+              $maxRatio = $item;
         }
     }
 
     foreach ($pcs as $i => $s) {
-        $pcs[$i]['rating'] = round(($ranking[$i]['ratio']/$maxRatio)*10, 1);
+        $pcs[$i]['rating'] = round(($ftw[$i]/$maxRatio)*10, 1);
     }
 
     usort($pcs, function($a, $b) use ($sort) {
@@ -269,10 +180,28 @@ $app->get('/wynik', function(Request $request) use ($app) {
     $pcs = json_decode(file_get_contents('stuff.json'), true);
 
     $selectedProfile = '';
-    foreach ($profiles as $p) {
-        if ($p['name'] == $request->get('profile')) {
-            $selectedProfile = $p;
+
+    if ($request->get('profile') != '') {
+        foreach ($profiles as $p) {
+            if ($p['name'] == $request->get('profile')) {
+                $selectedProfile = $p;
+            }
         }
+    } else {
+        $p = array();
+
+        $p['name'] = 'custom';
+        $p['label'] = 'dla twoich preferencji';
+
+        $p['criteria'] = array(
+            "price"=> $request->get('price'),
+            "disk"=> $request->get('disk'),
+            "gpu"=> $request->get('gpu'),
+            "cpu" => $request->get('cpu'),
+            "ram" => $request->get('ram')
+        );
+
+        $selectedProfile = $p;
     }
 
     if (!$selectedProfile || $request->get('sort') == '') {

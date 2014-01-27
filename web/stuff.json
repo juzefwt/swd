@@ -5,7 +5,7 @@
         "gpu": "nV GF GT750M",
         "ram": "16GB",
         "hdd": "1000GB",
-        "price": 2789,
+        "price": 4589,
         "criteria": {
             "price": 8,
             "disk": 6,
@@ -15,33 +15,63 @@
         }
     },
     {
-        "name": "Komp beznadziejny",
-        "cpu": "core i7-4700MQ",
-        "gpu": "nV GF GT750M",
-        "ram": "16GB",
-        "hdd": "1000GB",
-        "price": 789,
+        "name": "Komp słaby",
+        "cpu": "core i3",
+        "gpu": "nV GF GT250",
+        "ram": "2GB",
+        "hdd": "100GB",
+        "price": 1299,
         "criteria": {
-            "price": 10,
-            "disk": 1,
-            "gpu": 1,
-            "cpu": 1,
-            "ram": 10
+            "price": 3,
+            "disk": 2,
+            "gpu": 2,
+            "cpu": 3,
+            "ram": 1
         }
     },
     {
         "name": "Komp do biura",
-        "cpu": "core i7-4700MQ",
+        "cpu": "core i5",
+        "gpu": "nV GF GT750M",
+        "ram": "4GB",
+        "hdd": "200GB",
+        "price": 2200,
+        "criteria": {
+            "price": 4,
+            "disk": 3,
+            "gpu": 3,
+            "cpu": 4,
+            "ram": 3
+        }
+    },
+    {
+        "name": "Komp dla programisty",
+        "cpu": "core i7",
         "gpu": "nV GF GT750M",
         "ram": "16GB",
-        "hdd": "1000GB",
-        "price": 1789,
+        "hdd": "500GB",
+        "price": 3780,
         "criteria": {
-            "price": 2,
-            "disk": 3,
-            "gpu": 2,
-            "cpu": 4,
-            "ram": 2
+            "price": 7,
+            "disk": 5,
+            "gpu": 3,
+            "cpu": 8,
+            "ram": 9
+        }
+    },
+    {
+        "name": "Komp do gier",
+        "cpu": "core i500",
+        "gpu": "nV GF GT750M",
+        "ram": "20GB",
+        "hdd": "1000GB",
+        "price": 5579,
+        "criteria": {
+            "price": 9,
+            "disk": 6,
+            "gpu": 10,
+            "cpu": 7,
+            "ram": 10
         }
     }
 ]
